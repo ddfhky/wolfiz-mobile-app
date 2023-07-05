@@ -29,7 +29,7 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  // This widget is the root of your application.
+  // Acest widget este radacina aplicatiei
   @override
   State<MyApp> createState() => _MyAppState();
 
@@ -38,9 +38,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale? _locale;
+  Locale? _locale;  // simbolul ? indica faptul ca variabila poate fi null
   ThemeMode _themeMode = FlutterFlowTheme.themeMode;
 
+  // late = vor fi initializata mai tarziu in cod
   late AppStateNotifier _appStateNotifier;
   late GoRouter _router;
 
@@ -68,7 +69,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Wolfiz',
+      title: 'Wolfiz',                  // folosit in locuri unde este necesar un titlu
       localizationsDelegates: [
         FFLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
@@ -88,6 +89,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class NavBarPage extends StatefulWidget {
+  //constructor
   NavBarPage({Key? key, this.initialPage, this.page}) : super(key: key);
 
   final String? initialPage;
@@ -102,10 +104,12 @@ class _NavBarPageState extends State<NavBarPage> {
   String _currentPageName = 'AcasaPagina';
   late Widget? _currentPage;
 
+  //in initState(), _currentPageName si _currentPage se seteaza cu valorile primite de la constructor (initialPage si page)
   @override
   void initState() {
     super.initState();
-    _currentPageName = widget.initialPage ?? _currentPageName;
+    _currentPageName = widget.initialPage ?? _currentPageName;  // operatorul ?? - operator de coalescenta nula.
+                                                                // ?? are rolul de a evalua. Daca expresia 1 (widget.initialPage) este diferita de null, rezultatul va fi expresia 1, altfel rezultatul va fi expresia 2 (_currentPageName)
     _currentPage = widget.page;
   }
 
@@ -117,6 +121,8 @@ class _NavBarPageState extends State<NavBarPage> {
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
+    // in metoda 'build' se creeaza un widget 'Scaffold' care este utilizat pentru a crea o pagina cu o structura de baza,
+    // care include un corp 'body' si o bara de navigare inferioara 'bottomNavigationBar'
     return Scaffold(
       body: _currentPage ?? tabs[_currentPageName],
       bottomNavigationBar: BottomNavigationBar(

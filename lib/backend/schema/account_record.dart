@@ -8,6 +8,10 @@ import '/backend/schema/util/schema_util.dart';
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
+
+// Clasa AccountRecord reprezinta o inregistrare (un document) din colectia "account" a bazei de date Firestore.
+// Aceasta class este folosita pentru a defini structura si comportamentul inregistrarilor din aceasta colectie.
+
 class AccountRecord extends FirestoreRecord {
   AccountRecord._(
     DocumentReference reference,
@@ -49,20 +53,43 @@ class AccountRecord extends FirestoreRecord {
     _outputQR = snapshotData['outputQR'] as String?;
   }
 
+
+  // Aceasta metoda returneaza o referinta la colectia "account" din baza de date Firestore.
+  // Prin intermediul acestei metode, putem accesa colectia "account" ai efectua diverse operatii precum adaugarea, actualizarea sau stergerea inregistrarilor
+
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('account');
+
+
+  // Aceasta metoda primeste o referinta la un document specific din colectia "account" si returneaza un stream care emite instante
+  // ale clasei AccountRecord la fiecare actualizare a documentului respectiv. Aceasta este utila atunci cand dorim să observam
+  // schimbarile in document in timp real
 
   static Stream<AccountRecord> getDocument(DocumentReference ref) =>
       ref.snapshots().map((s) => AccountRecord.fromSnapshot(s));
 
+
+  // Aceasta metoda primeste o referinta la un document specific din colectia "account" si returneaza o Future care se va rezolva cu o
+  // instanta a clasei AccountRecord. Aceasta metoda este utilizata atunci cand dorim sa obtinem datele dintr-un document o singura data, \
+  // fara a-l urmari ulterior pentru actualizari
+
   static Future<AccountRecord> getDocumentOnce(DocumentReference ref) =>
       ref.get().then((s) => AccountRecord.fromSnapshot(s));
+
+
+  // Aceasta metoda primeste un snapshot (instantaneu) al unui document Firestore si returneaza o instanta a clasei AccountRecord
+  // bazata pe datele din snapshot. Aceasta se foloseste pentru a transforma datele primite din Firestore intr-o reprezentare locala
+  // a inregistrarii
 
   static AccountRecord fromSnapshot(DocumentSnapshot snapshot) =>
       AccountRecord._(
         snapshot.reference,
         mapFromFirestore(snapshot.data() as Map<String, dynamic>),
       );
+
+
+  // Aceasta metoda primeste datele si o referinta la un document si returneaza o instanta a clasei AccountRecord pe baza acestor date.
+  // Este folosita atunci cand dorim să cream o instanta locala a inregistrarii pentru a o adauga sau actualiza in Firestore
 
   static AccountRecord getDocumentFromData(
     Map<String, dynamic> data,

@@ -62,6 +62,7 @@ class _AdaugaContPaginaWidgetState extends State<AdaugaContPaginaWidget> {
             elevation: 6.0,
           ),
         ),
+
         body: SafeArea(
           top: true,
           child: Padding(
@@ -71,6 +72,7 @@ class _AdaugaContPaginaWidgetState extends State<AdaugaContPaginaWidget> {
               children: [
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
+                  //Cont personal
                   child: Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: 75.0,
@@ -123,6 +125,7 @@ class _AdaugaContPaginaWidgetState extends State<AdaugaContPaginaWidget> {
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 17.0, 0.0),
+                            //info
                             child: FlutterFlowIconButton(
                               borderRadius: 20.0,
                               buttonSize: 50.0,

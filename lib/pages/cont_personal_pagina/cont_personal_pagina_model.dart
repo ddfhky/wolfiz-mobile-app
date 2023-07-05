@@ -11,7 +11,7 @@ class ContPersonalPaginaModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
-  var codQrOutput = '';
+  String codQrOutput = 'Unknown';
 
   /// Initialization and disposal methods.
 

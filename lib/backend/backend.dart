@@ -24,9 +24,13 @@ Future<int> queryAccountRecordCount({
       limit: limit,
     );
 
+
+// Aceasta functie queryAccountRecord returneaza un flux de liste de obiecte AccountRecord dintr-o colectie specificata din Firestore.
+// Ea serveate ca un mecanism de interogare pentru a obtine datele din colectia account si le returneaza sub forma de flux (stream)
+
 Stream<List<AccountRecord>> queryAccountRecord({
   Query Function(Query)? queryBuilder,
-  int limit = -1,
+  int limit = -1, // adica nu exista limita
   bool singleRecord = false,
 }) =>
     queryCollection(
@@ -81,10 +85,16 @@ Future<int> queryCollectionCount(
   }).then((value) => value.count);
 }
 
+
+// Aceasta functie queryCollection serveste ca un mecanism pentru a interoga o colectie specifica din Firestore si pentru a obtine
+// datele sub forma de flux (stream) de liste ale unui tip specific T
+
 Stream<List<T>> queryCollection<T>(
   Query collection,
   RecordBuilder<T> recordBuilder, {
-  Query Function(Query)? queryBuilder,
+  Query Function(Query)? queryBuilder,  // parametru de tip functie care permite specificarea unei functii personalizate
+                                        // de interogare pentru a filtra datele din colectie. Aceasta functie primeste un obiect 'Query'
+                                        // si returneaza un alt obiect 'Query' cu filtrele si restrictiile dorite
   int limit = -1,
   bool singleRecord = false,
 }) {
@@ -93,6 +103,13 @@ Stream<List<T>> queryCollection<T>(
   if (limit > 0 || singleRecord) {
     query = query.limit(singleRecord ? 1 : limit);
   }
+
+  // Apelul query.snapshots() returneaza un flux (stream) de QuerySnapshot-uri, iar acest flux este transformat intr-un flux de liste
+  // de obiecte de tip T. Pentru fiecare DocumentSnapshot din colectie, functia recordBuilder este apelata pentru a construi obiectul
+  // de tip T, iar obiectele rezultate sunt filtrate pentru a exclude valorile nule. In cele din urma, obiectele ne-nule sunt adaugate
+  // intr-o lista si acea lista este emisa ca un eveniment in fluxul returnat. De fiecare data cand se modifica datele din colectie,
+  // fluxul va emite o noua lista cu date actualizate
+
   return query.snapshots().handleError((err) {
     print('Error querying $collection: $err');
   }).map((s) => s.docs

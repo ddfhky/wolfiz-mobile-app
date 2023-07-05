@@ -34,8 +34,11 @@ T createModel<T extends FlutterFlowModel>(
   return model;
 }
 
+// Clasa FlutterFlowModel este o clasa de baza pentru modelele utilizate in arhitectura FlutterFlow, care ajuta la gestionarea starii
+// si a ciclului de viata al modelelor asociate paginilor sau componentelor
+
 abstract class FlutterFlowModel {
-  // Initialization methods
+  // initializare metode
   bool _isInitialized = false;
   void initState(BuildContext context);
   void _init(BuildContext context) {
@@ -45,12 +48,19 @@ abstract class FlutterFlowModel {
     }
   }
 
-  // Dispose methods
-  // Whether to dispose this model when the corresponding widget is
-  // disposed. By default this is true for pages and false for components,
-  // as page/component models handle the disposal of their children.
+  // Metode de eliminare
+  // Indica daca acest model trebuie sa fie eliminat atunci cand widget-ul corespunzator
+  // este eliminat. In mod implicit, aceasta este setata la true pentru pagini si la false pentru componente,
+  // deoarece modelele de pagini / componente gestioneaza eliminarea copiilor lor.
+
   bool disposeOnWidgetDisposal = true;
+
+  // Metoda dispose() reprezinta actiunile de curatenie si eliberare a resurselor care trebuie efectuate atunci cand modelul este eliminat
+
   void dispose();
+
+  // Metoda maybeDispose() verifica valoarea variabilei disposeOnWidgetDisposal si apeleaza metoda dispose() daca aceasta este setata pe true. In acest fel, se decide daca modelul trebuie sa fie eliminat sau nu, in functie de valoarea variabilei disposeOnWidgetDisposal.
+
   void maybeDispose() {
     if (disposeOnWidgetDisposal) {
       dispose();
@@ -61,6 +71,12 @@ abstract class FlutterFlowModel {
   bool updateOnChange = false;
   // Function to call when the model receives an update.
   VoidCallback _updateCallback = () {};
+
+  // onUpdate() si setOnUpdate(): Aceste metode sunt utilizate pentru a notifica pagina sau componenta asociata cand modelul primeste
+  //                              o actualizare. Atunci cand starea modelului se schimba si trebuie sa notifice widget-ul corespunzator,
+  //                              se apeleaza onUpdate(). Metoda setOnUpdate() permite setarea unui callback personalizat care va fi
+  //                              apelat atunci cand modelul primeste o actualizare.
+
   void onUpdate() => updateOnChange ? _updateCallback() : () {};
   FlutterFlowModel setOnUpdate({
     bool updateOnChange = false,

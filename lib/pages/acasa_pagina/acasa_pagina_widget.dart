@@ -36,8 +36,14 @@ class _AcasaPaginaWidgetState extends State<AcasaPaginaWidget> {
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
+    // GestureDetector: Un widget care permite capturarea evenimentului de apasare pentru a scapa de focusul (deselectarea) elementelor
+    // de interfata atunci cand se atinge in afara lor.
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+
+      // Scaffold: Widget-ul principal pentru a construi pagini cu functionalitati comune precum AppBar, snackbar, si multe altele.
+
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -67,8 +73,14 @@ class _AcasaPaginaWidgetState extends State<AcasaPaginaWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
+
+              // StreamBuilder: Un widget care asculta un flux de date (baza de date) si reconstruieste interfata de fiecare data cand
+              // fluxul de date emite o actualizare.
+
               StreamBuilder<List<AccountRecord>>(
                 stream: queryAccountRecord(),
+
+                // Aceasta este functia de construire a interfetei care primeste contextul si snapshot-ul fluxului de date
                 builder: (context, snapshot) {
                   // Customize what your widget looks like when it's loading.
                   if (!snapshot.hasData) {

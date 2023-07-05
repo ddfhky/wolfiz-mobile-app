@@ -79,6 +79,7 @@ class _ContPersonalPaginaWidgetState extends State<ContPersonalPaginaWidget> {
             elevation: 0.0,
           ),
         ),
+
         body: SafeArea(
           top: true,
           child: Column(
@@ -87,6 +88,7 @@ class _ContPersonalPaginaWidgetState extends State<ContPersonalPaginaWidget> {
               Expanded(
                 child: Align(
                   alignment: AlignmentDirectional(0.0, 0.0),
+                  // --------- qrCode
                   child: FFButtonWidget(
                     onPressed: () async {
                       _model.codQrOutput =
