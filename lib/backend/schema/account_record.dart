@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:collection/collection.dart';
 
@@ -25,10 +26,10 @@ class AccountRecord extends FirestoreRecord {
   String get uuid => _uuid ?? '';
   bool hasUuid() => _uuid != null;
 
-  // "key_hash" field.
-  String? _keyHash;
-  String get keyHash => _keyHash ?? '';
-  bool hasKeyHash() => _keyHash != null;
+  // "secretKey" field.
+  String? _secretKey;
+  String get secretKey => _secretKey ?? '';
+  bool hasSecretKey() => _secretKey != null;
 
   // "name" field.
   String? _name;
@@ -45,12 +46,31 @@ class AccountRecord extends FirestoreRecord {
   String get outputQR => _outputQR ?? '';
   bool hasOutputQR() => _outputQR != null;
 
+  // "algorithm" field.
+  String? _algorithm;
+  String get algorithm => _algorithm ?? '';
+  bool hasAlgorithm() => _algorithm != null;
+
+  // "digits" field
+  int? _digits;
+  int get digits => _digits ?? 0;
+  bool hasDigits() => _digits != null;
+
+  // "period" field
+  int? _period;
+  int get period => _period ?? 0;
+  bool hasPeriod() => _period != null;
+
+
   void _initializeFields() {
     _uuid = snapshotData['uuid'] as String?;
-    _keyHash = snapshotData['key_hash'] as String?;
+    _secretKey = snapshotData['secretKey'] as String?;
     _name = snapshotData['name'] as String?;
     _email = snapshotData['email'] as String?;
     _outputQR = snapshotData['outputQR'] as String?;
+    _algorithm = snapshotData['algorithm'] as String?;
+    _digits = snapshotData['digits'] as int?;
+    _period = snapshotData['period'] as int?;
   }
 
 
@@ -112,18 +132,24 @@ class AccountRecord extends FirestoreRecord {
 
 Map<String, dynamic> createAccountRecordData({
   String? uuid,
-  String? keyHash,
+  String? secretKey,
   String? name,
   String? email,
   String? outputQR,
+  String? algorithm,
+  int? digits,
+  int? period,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'uuid': uuid,
-      'key_hash': keyHash,
+      'secretKey': secretKey,
       'name': name,
       'email': email,
       'outputQR': outputQR,
+      'algorithm': algorithm,
+      'digits': digits,
+      'period': period,
     }.withoutNulls,
   );
 
@@ -136,15 +162,18 @@ class AccountRecordDocumentEquality implements Equality<AccountRecord> {
   @override
   bool equals(AccountRecord? e1, AccountRecord? e2) {
     return e1?.uuid == e2?.uuid &&
-        e1?.keyHash == e2?.keyHash &&
+        e1?.secretKey == e2?.secretKey &&
         e1?.name == e2?.name &&
         e1?.email == e2?.email &&
-        e1?.outputQR == e2?.outputQR;
+        e1?.outputQR == e2?.outputQR &&
+        e1?.algorithm == e2?.algorithm &&
+        e1?.digits == e2?.digits &&
+        e1?.period == e2?.period;
   }
 
   @override
   int hash(AccountRecord? e) => const ListEquality()
-      .hash([e?.uuid, e?.keyHash, e?.name, e?.email, e?.outputQR]);
+      .hash([e?.uuid, e?.secretKey, e?.name, e?.email, e?.outputQR, e?.algorithm, e?.digits, e?.period]);
 
   @override
   bool isValidKey(Object? o) => o is AccountRecord;
