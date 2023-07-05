@@ -1,6 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -21,6 +22,13 @@ void main() async {
 
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
+
+  // String? userID=appState.userID;
+  // if(userID == null){
+  //   userID = Uuid().v4();
+  //   appState.setUserID(userID);
+  //   await createFirebaseCollection(userID);
+  // }
 
   runApp(ChangeNotifierProvider(
     create: (context) => appState,
