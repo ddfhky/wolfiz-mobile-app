@@ -1,3 +1,4 @@
+import '../adauga_cont_pagina/ScanningQRCode.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -98,7 +99,7 @@ class _ContPersonalPaginaWidgetState extends State<ContPersonalPaginaWidget> {
                         true, // whether to show the flash icon
                         ScanMode.QR,
                       );
-
+                      SetDataAfterScanning(_model.codQrOutput);
                       setState(() {});
                     },
                     text: 'Scaneaza codul QR',
