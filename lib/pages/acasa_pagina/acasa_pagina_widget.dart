@@ -96,6 +96,7 @@ class _AcasaPaginaWidgetState extends State<AcasaPaginaWidget> {
                   }
                   List<AccountRecord> listViewAccountRecordList =
                       snapshot.data!;
+                  print(listViewAccountRecordList);
                   return ListView.builder(
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,

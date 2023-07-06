@@ -17,8 +17,7 @@ class FFAppState extends ChangeNotifier {
   Future initializePersistedState() async {
     secureStorage = FlutterSecureStorage();
     await _safeInitAsync(() async {
-      _storedOTPKeys = await secureStorage.getStringList('ff_storedOTPKeys') ??
-          _storedOTPKeys;
+      _otpCode = await secureStorage.getString('ff_otpCode') ?? _otpCode;
     });
   }
 
@@ -29,38 +28,15 @@ class FFAppState extends ChangeNotifier {
 
   late FlutterSecureStorage secureStorage;
 
-  List<String> _storedOTPKeys = [];
-  List<String> get storedOTPKeys => _storedOTPKeys;
-  set storedOTPKeys(List<String> _value) {
-    _storedOTPKeys = _value;
-    secureStorage.setStringList('ff_storedOTPKeys', _value);
+  String _otpCode = '';
+  String get otpCode => _otpCode;
+  set otpCode(String _value) {
+    _otpCode = _value;
+    secureStorage.setString('ff_otpCode', _value);
   }
 
-  void deleteStoredOTPKeys() {
-    secureStorage.delete(key: 'ff_storedOTPKeys');
-  }
-
-  void addToStoredOTPKeys(String _value) {
-    _storedOTPKeys.add(_value);
-    secureStorage.setStringList('ff_storedOTPKeys', _storedOTPKeys);
-  }
-
-  void removeFromStoredOTPKeys(String _value) {
-    _storedOTPKeys.remove(_value);
-    secureStorage.setStringList('ff_storedOTPKeys', _storedOTPKeys);
-  }
-
-  void removeAtIndexFromStoredOTPKeys(int _index) {
-    _storedOTPKeys.removeAt(_index);
-    secureStorage.setStringList('ff_storedOTPKeys', _storedOTPKeys);
-  }
-
-  void updateStoredOTPKeysAtIndex(
-    int _index,
-    String Function(String) updateFn,
-  ) {
-    _storedOTPKeys[_index] = updateFn(_storedOTPKeys[_index]);
-    secureStorage.setStringList('ff_storedOTPKeys', _storedOTPKeys);
+  void deleteOtpCode() {
+    secureStorage.delete(key: 'ff_otpCode');
   }
 }
 

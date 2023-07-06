@@ -1,6 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:wolfiz/backend/backend.dart';
+import 'package:provider/provider.dart';
 
-void SetDataAfterScanning(String qrCode) {
+
+import '../../app_state.dart';
+import '../../totp/totp_algorithm.dart';
+
+void SetDataAfterScanning(String qrCode, BuildContext context) {
   if (qrCode.isNotEmpty) {
     final params = qrCode
         .split('?')
@@ -9,7 +16,6 @@ void SetDataAfterScanning(String qrCode) {
     String name = '';
     String email = '';
     String secretKey = '';
-    String uuid = 'uuid';
     String outputQR = qrCode;
     String algorithm = '';
     int digits = 0;
@@ -44,15 +50,19 @@ void SetDataAfterScanning(String qrCode) {
     }
 
     final accountRecordData = createAccountRecordData(
-        uuid: uuid,
         secretKey: secretKey,
         name: name,
         email: email,
         outputQR: outputQR,
         algorithm: algorithm,
         digits: digits,
-        period: period
+        period: period,
     );
+
+    // String otp = Totp.generateCode(secretKey, period, digits, OtpHashAlgorithm.fromString(algorithm));
+    // final appState = Provider.of<FFAppState>(context, listen: false);
+    // appState.otpCode = otp;
+
 
     final collectionReference = AccountRecord.collection;
     collectionReference.add(accountRecordData).then((value) {

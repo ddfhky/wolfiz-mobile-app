@@ -29,6 +29,10 @@ class _ContPersonalPaginaWidgetState extends State<ContPersonalPaginaWidget> {
     _model = createModel(context, () => ContPersonalPaginaModel());
   }
 
+  void _setDataAfterScanning(String qrCode) {
+    SetDataAfterScanning(qrCode, context);
+  }
+
   @override
   void dispose() {
     _model.dispose();
@@ -99,7 +103,7 @@ class _ContPersonalPaginaWidgetState extends State<ContPersonalPaginaWidget> {
                         true, // whether to show the flash icon
                         ScanMode.QR,
                       );
-                      SetDataAfterScanning(_model.codQrOutput);
+                      _setDataAfterScanning(_model.codQrOutput);
                       setState(() {});
                     },
                     text: 'Scaneaza codul QR',
